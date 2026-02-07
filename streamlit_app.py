@@ -78,7 +78,7 @@ Provide clear, concise responses and offer to help with additional banking needs
         
         try:
             # Get response from Mistral AI
-            response = self.client.chat(
+            response = self.client.chat.complete(
                 model=self.model,
                 messages=messages
             )
