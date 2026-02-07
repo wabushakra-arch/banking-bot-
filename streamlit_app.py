@@ -41,9 +41,14 @@ st.markdown("""
 class BankingBot:
     def __init__(self):
         """Initialize the Banking Bot with Mistral AI Large"""
-        api_key = os.getenv("MISTRAL_API_KEY")
+        # Try to get API key from Streamlit secrets first, then fall back to environment variables
+        try:
+            api_key = st.secrets["MISTRAL_API_KEY"]
+        except (KeyError, FileNotFoundError):
+            api_key = os.getenv("MISTRAL_API_KEY")
+        
         if not api_key:
-            raise ValueError("MISTRAL_API_KEY not found in environment variables")
+            raise ValueError("MISTRAL_API_KEY not found in environment variables or Streamlit secrets")
         
         self.client = Mistral(api_key=api_key)
         self.model = "mistral-large-latest"
